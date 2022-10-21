@@ -8,6 +8,10 @@ local hide_in_width = function()
   return vim.fn.winwidth(0) > 80
 end
 
+local buffer_not_empty = function()
+    return vim.fn.empty(vim.fn.expand('%:t')) ~= 1
+end
+
 local diagnostics = {
   "diagnostics",
   sources = { "nvim_diagnostic" },
@@ -17,16 +21,17 @@ local diagnostics = {
   always_visible = true,
 }
 
-local diff = {
-  "diff",
-  colored = false,
-  symbols = { added = "", modified = "", removed = "" }, -- changes diff symbols
-  cond = hide_in_width,
-}
+-- local diff = {
+--   "diff",
+--   colored = false,
+--   symbols = { added = "", modified = "", removed = "" }, -- changes diff symbols
+--   cond = hide_in_width,
+-- }
 
-local filetype = {
-  "filetype",
-  icons_enabled = false,
+local filename = {
+    "filename",
+    cond = buffer_not_empty,
+    path = 1
 }
 
 local location = {
@@ -34,9 +39,9 @@ local location = {
   padding = 0,
 }
 
-local spaces = function()
-  return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
-end
+-- local spaces = function()
+--   return "spaces: " .. vim.api.nvim_buf_get_option(0, "shiftwidth")
+-- end
 
 local function contains(t, value)
     for _, v in pairs(t) do
@@ -69,12 +74,12 @@ local language_server = {
             end
         end
 
-        local clients = vim.lsp.get_active_clients()
+        local clients = vim.lsp.buf_get_clients(0)
         local client_names = {}
 
         -- add client
         for _, client in pairs(clients) do
-            table.insert(client_names, client.name)
+            client_names[#client_names + 1] = client.name
         end
 
         -- join client names with commas
@@ -84,7 +89,7 @@ local language_server = {
         local language_servers = ""
         local client_names_str_len = #client_names_str
         if client_names_str_len ~= 0 then
-            language_servers = "[" .. client_names_str .. "]" 
+            language_servers = client_names_str
         end
 
         if client_names_str_len == 0 then
@@ -94,7 +99,8 @@ local language_server = {
             return language_servers:gsub(", anonymous source", "")
         end
     end,
-    padding = 0,
+    padding = 1,
+    icon = ' LSP:',
     cond = hide_in_width,
 }
 
@@ -109,11 +115,11 @@ local lualine_config = {
     },
     sections = {
         lualine_a = { "mode" },
-        lualine_b = {"branch"},
-        lualine_c = { diagnostics },
+        lualine_b = { "branch" },
+        lualine_c = { diagnostics, filename },
         -- lualine_x = { diff, spaces, "encoding", filetype },
-        lualine_x = { language_server, spaces, filetype },
-        lualine_y = {},
+        lualine_x = { language_server },
+        lualine_y = {  },
         lualine_z = { location, "progress" },
     },
     inactive_sections = {

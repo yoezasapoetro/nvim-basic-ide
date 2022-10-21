@@ -25,6 +25,13 @@ vim.g.mapleader = " "
 -- Ex
 keymap("n", "<leader>pv", "<cmd>:Ex<CR>", opts)
 
+-- Inline 
+keymap("n", "J", "mzJ`z", opts)
+
+-- Jump search
+keymap("n", "n", "nzzzv", opts)
+keymap("n", "N", "Nzzzv", opts)
+
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize -2<CR>", opts)
 keymap("n", "<C-Down>", ":resize +2<CR>", opts)
@@ -43,10 +50,20 @@ keymap("n", "<S-q>", "<cmd>Bdelete!<CR>", opts)
 
 -- Better paste
 keymap("v", "p", '"_dP', opts)
+keymap("n", "<leader>y", '"+y', opts)
+keymap("v", "<leader>y", '"+y', opts)
+keymap("n", "<leader>Y", '"+Y', { noremap = false })
 
 -- Scrolling
 keymap("n", "<C-d>", "<C-d>zz", opts)
 keymap("n", "<C-u>", "<C-u>zz", opts)
+
+-- Save
+keymap("n", "<leader>w", ":w<CR>", opts)
+
+-- Move cursor line
+keymap("v", "J", ":m '>+1<CR>gv=gv", opts)
+keymap("v", "K", ":m '<-2<CR>gv=gv", opts)
 
 -- Yank
 keymap("n", "Y", "yg$", opts)
@@ -57,18 +74,25 @@ keymap("v", "<", "<gv", opts)
 keymap("v", ">", ">gv", opts)
 
 -- Plugins --
-
 -- Harpoon
 keymap("n", "<leader>a", "<cmd>lua require'harpoon.mark'.add_file()<CR>", opts)
 keymap("n", "<c-e>", "<cmd>lua require'harpoon.ui'.toggle_quick_menu()<CR>", opts)
 
 -- UndoTree
-keymap("n", "<leader>u", "<cmd>UndotreeToggle<CR>", opts)
+keymap("n", "<leader>u", "<cmd>UndotreeShow<CR>", opts)
 
 -- Telescope
 keymap("n", "<leader>ff", ":Telescope find_files<CR>", opts)
 keymap("n", "<leader>ft", ":Telescope live_grep<CR>", opts)
-keymap("n", "<leader>fp", ":Telescope projects<CR>", opts)
+keymap("n", "<leader>fs", function()
+    require("telescope.builtin").grep_string({ search = vim.fn.input("Grep for > ") })
+end, opts)
+keymap("n", "<leader>fw", function()
+    require("telescope.builtin").grep_string({ search = vim.fn.expand("<cword>") })
+end, opts)
+keymap("n", "<leader>fgw", function()
+    require("telescope.builtin").extensions.git_worktree.git_worktrees()
+end, opts)
 keymap("n", "<leader>fb", ":Telescope buffers<CR>", opts)
 
 -- DAP

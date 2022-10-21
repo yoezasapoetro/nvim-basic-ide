@@ -3,6 +3,11 @@ if not cmp_status_ok then
 	return
 end
 
+local lspkind_status_ok, lspkind = pcall(require, "lspkind")
+if not lspkind_status_ok then
+    return
+end
+
 local snip_status_ok, luasnip = pcall(require, "luasnip")
 if not snip_status_ok then
 	return
@@ -42,6 +47,8 @@ local kind_icons = {
 	Operator = "",
 	TypeParameter = "",
 }
+
+lspkind.init()
 
 local cmp_config = {
 	snippet = {
@@ -92,21 +99,28 @@ local cmp_config = {
 			"s",
 		}),
 	}),
-	formatting = {
-		fields = { "kind", "abbr", "menu" },
-		format = function(entry, vim_item)
-			vim_item.kind = kind_icons[vim_item.kind]
-			vim_item.menu = ({
-				nvim_lsp = "",
-				nvim_lua = "",
-				luasnip = "",
-				buffer = "",
-				path = "",
-				emoji = "",
-			})[entry.source.name]
-			return vim_item
-		end,
-	},
+    formatting = {
+        format = lspkind.cmp_format({
+            mode = "symbol_text",
+            maxwidth = 50,
+            symbol_map = kind_icons,
+        })
+    },
+	-- formatting = {
+	-- 	fields = { "kind", "abbr", "menu" },
+	-- 	format = function(entry, vim_item)
+	-- 		vim_item.kind = kind_icons[vim_item.kind]
+	-- 		vim_item.menu = ({
+	-- 			nvim_lsp = "",
+	-- 			nvim_lua = "",
+	-- 			luasnip = "",
+	-- 			buffer = "",
+	-- 			path = "",
+	-- 			emoji = "",
+	-- 		})[entry.source.name]
+	-- 		return vim_item
+	-- 	end,
+	-- },
 	sources = {
 		{ name = "nvim_lsp" },
 		{ name = "nvim_lua" },
@@ -114,15 +128,8 @@ local cmp_config = {
 		{ name = "buffer" },
 		{ name = "path" },
 	},
-	confirm_opts = {
-		behavior = cmp.ConfirmBehavior.Replace,
-		select = false,
-	},
-	window = {
-		completion = cmp.config.window.bordered(),
-		documentation = cmp.config.window.bordered(),
-	},
 	experimental = {
+        native_menu = false,
 		ghost_text = true,
 	},
 }

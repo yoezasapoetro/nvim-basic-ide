@@ -1,9 +1,9 @@
 vim.opt.clipboard = "unnamedplus"               -- allows neovim to access the system clipboard
 vim.opt.completeopt = { "menuone", "noselect" } -- mostly just for cmp
 vim.opt.conceallevel = 0                        -- so that `` is visible in markdown files
-vim.opt.fileencoding = "utf-8"                  -- the encoding written to a file
+-- vim.opt.fileencoding = "utf-8"                  -- the encoding written to a file
 vim.opt.ignorecase = true                       -- ignore case in search patterns
-vim.opt.mouse = "a"                             -- allow the mouse to be used in neovim
+-- vim.opt.mouse = "a"                             -- allow the mouse to be used in neovim
 vim.opt.pumheight = 10                          -- pop up menu height
 vim.opt.showmode = false                        -- we don't need to see things like -- INSERT -- anymore
 vim.opt.showtabline = 0                         -- always show tabs
@@ -32,6 +32,7 @@ vim.opt.iskeyword:append("-")
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
+-- vim.opt.expandtab = false
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
@@ -54,7 +55,11 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.cmdheight = 1
 
-vim.opt.updatetime = 100
+vim.opt.updatetime = 70
+
+vim.opt.colorcolumn = "100"
+vim.g.virtcolumn_char = '▕' -- char to display the line
+vim.g.virtcolumn_priority = 10 -- priority of extmark
 
 -- netrw
 vim.g.netrw_browse_split = 0
