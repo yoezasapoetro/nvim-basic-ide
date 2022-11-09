@@ -48,7 +48,7 @@ return packer.startup(function(use)
     use { "nvim-lualine/lualine.nvim", commit = "3362b28f917acc37538b1047f187ff1b5645ecdd" }
 
     -- Colorschemes
-    use { "catppuccin/nvim", as = "catppuccin" }
+    use { "catppuccin/nvim", as = "catppuccin", tag = "v0.2.4" }
 
     -- cmp plugins
     use { "hrsh7th/nvim-cmp", commit = "df6734aa018d6feb4d76ba6bda94b1aeac2b378a" } -- The completion plugin
@@ -91,7 +91,7 @@ return packer.startup(function(use)
     use { "mbbill/undotree" }
 
     -- Treesitter
-    use { "nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" } }
+    use { "nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" }, commit = "4cccb6f494eb255b32a290d37c35ca12584c74d0" }
     use { "nvim-treesitter/nvim-treesitter-context" }
     -- use { "nvim-treesitter/playground" }
 
@@ -109,6 +109,9 @@ return packer.startup(function(use)
 
     -- Java
     use { "mfussenegger/nvim-jdtls", commit = "3a148dac526396678f141a033270961d0d9ccb88" }
+
+    -- Kotlin
+    use { "udalov/kotlin-vim" }
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

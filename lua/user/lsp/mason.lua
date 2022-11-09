@@ -9,6 +9,7 @@ local servers = {
     "tsserver",
     "jsonls",
     "jdtls",
+    "kotlin_language_server",
     "vuels", -- vue 2.6.x
     -- "volar", -- vue 3.x and vue 2.7.x
 }

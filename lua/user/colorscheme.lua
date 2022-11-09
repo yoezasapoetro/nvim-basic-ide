@@ -14,11 +14,11 @@ local catppuccin_config = {
     compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
     transparent_background = true,
     custom_highlights = {
-        ColorColumn = { fg = colors.lavender },
+        ColorColumn = { fg = colors.peach },
         Comment = { fg = colors.overlay1 },
         LineNr = { fg = colors.overlay1 },
         CursorLine = { bg = colors.none },
-        CursorLineNr = { bg = colors.lavender },
+        CursorLineNr = { bg = colors.none },
         DiagnosticVirtualTextError = { bg = colors.none },
 		DiagnosticVirtualTextWarn = { bg = colors.none },
 		DiagnosticVirtualTextInfo = { bg = colors.none },
